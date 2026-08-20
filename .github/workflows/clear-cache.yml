@@ -10,9 +10,22 @@ jobs:
       actions: write
 
     steps:
-      - name: Clear GitHub Actions caches
-        run: |
-          gh extension install actions/gh-actions-cache
-          gh actions-cache delete --all --confirm
+      - name: Install cache extension
+        run: gh extension install actions/gh-actions-cache
+
+      - name: Clear all caches
         env:
           GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          while read -r key; do
+            [ -z "$key" ] && continue
+
+            echo "Deleting cache: $key"
+            gh actions-cache delete "$key" --confirm
+          done < <(
+            gh actions-cache list \
+              --limit 100 \
+              | awk 'NR > 1 {print $1}'
+          )
