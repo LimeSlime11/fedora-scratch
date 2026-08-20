@@ -36,3 +36,5 @@ jobs:
           tags: |
             ghcr.io/limeslime11/fedora-scratch:latest
             ghcr.io/limeslime11/fedora-scratch:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
