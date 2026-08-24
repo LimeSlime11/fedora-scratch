@@ -5,6 +5,7 @@ FROM quay.io/fedora/fedora-bootc:latest
 
 RUN --mount=type=cache,target=/var/cache/dnf \
     dnf5 install -y \
+        --setopt=install_weak_deps=False \
         plasma-desktop \
         sddm \
         konsole \
@@ -20,15 +21,14 @@ RUN flatpak install --system --noninteractive flathub \
     org.kde.kate \
     org.mozilla.firefox
 
-# login screen
+# Copy system files from features to the root filesystem
+COPY features/*/files/ /
+
+# Run scripts from features
+RUN for script in features/*/scripts/*.sh; do \
+        [ -f "$script" ] || continue; \
+        "$script"; \
+    done
+
+# enable login manager
 RUN systemctl enable sddm.service
-
-# Locale and keyboard
-RUN ln -sf /usr/share/zoneinfo/Europe/Copenhagen /etc/localtime \
-    && printf '%s\n' 'KEYMAP=dk' > /etc/vconsole.conf
-
-# default user
-RUN if ! id admin >/dev/null 2>&1; then \
-        useradd --create-home --groups wheel --shell /bin/bash admin; \
-    fi \
-    && echo 'admin:admin' | chpasswd
