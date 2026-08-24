@@ -31,5 +31,5 @@ COPY features/*/files/ /
 RUN --mount=type=bind,source=features,target=/features \
     for script in /features/*/scripts/*.sh; do \
         [ -f "$script" ] || continue; \
-        "$script"; \
+        bash "$script"; \
     done
