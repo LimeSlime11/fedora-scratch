@@ -22,3 +22,8 @@ RUN flatpak install --system -y flathub \
     org.mozilla.firefox
 
 RUN systemctl enable sddm.service
+
+RUN if ! id admin >/dev/null 2>&1; then \
+        useradd --create-home --groups wheel --shell /bin/bash admin; \
+    fi \
+    && echo 'admin:admin' | chpasswd
