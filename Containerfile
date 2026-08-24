@@ -21,14 +21,15 @@ RUN flatpak install --system --noninteractive flathub \
     org.kde.kate \
     org.mozilla.firefox
 
+# enable login manager
+RUN systemctl enable sddm.service
+
 # Copy system files from features to the root filesystem
 COPY features/*/files/ /
 
 # Run scripts from features
-RUN for script in features/*/scripts/*.sh; do \
+RUN --mount=type=bind,source=features,target=/features \
+    for script in /features/*/scripts/*.sh; do \
         [ -f "$script" ] || continue; \
         "$script"; \
     done
-
-# enable login manager
-RUN systemctl enable sddm.service
