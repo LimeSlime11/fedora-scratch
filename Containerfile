@@ -10,11 +10,10 @@ RUN --mount=type=cache,target=/var/cache/dnf \
     && dnf5 clean all
 
 # Add Flathub
-RUN flatpak remote-add --if-not-exists flathub \
+RUN flatpak remote-add --system --if-not-exists flathub \
     https://dl.flathub.org/repo/flathub.flatpakrepo
 
-# Install Flatpaks
-RUN flatpak install -y flathub \
+RUN flatpak install --system -y flathub \
     org.kde.kate \
     org.mozilla.firefox
 
