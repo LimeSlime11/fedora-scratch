@@ -8,6 +8,7 @@ RUN --mount=type=cache,target=/var/cache/dnf \
         --setopt=install_weak_deps=False \
         plasma-desktop \
         sddm \
+        sddm-breeze \
         konsole \
         dolphin \
         flatpak \
