@@ -1,0 +1,11 @@
+[Unit]
+Description=Reset Guest user
+After=local-fs.target
+Before=sddm.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/reset-guest.sh
+
+[Install]
+WantedBy=multi-user.target
