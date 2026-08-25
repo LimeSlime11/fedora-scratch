@@ -23,7 +23,7 @@ RUN flatpak install --system --noninteractive flathub \
     org.mozilla.firefox
 
 # enable login manager
-RUN systemctl enable sddm.service
+# RUN systemctl enable sddm.service
 
 # Copy system files from features to the root filesystem
 COPY features/*/files/ /

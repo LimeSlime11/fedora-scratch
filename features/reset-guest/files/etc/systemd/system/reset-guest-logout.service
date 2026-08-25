@@ -1,6 +1,0 @@
-[Unit]
-Description=Reset Guest after logout
-
-[Service]
-Type=oneshot
-ExecStart=/usr/local/sbin/reset-guest.sh

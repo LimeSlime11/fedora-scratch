@@ -1,0 +1,97 @@
+{
+  "policies": {
+    "Homepage": {
+      "URL": "https://www.google.com/",
+      "Locked": true,
+      "StartPage": "homepage"
+    },
+
+    "Bookmarks": [
+      {
+        "Title": "Biblioteket Sønderborg",
+        "URL": "https://biblioteket.sonderborg.dk/",
+        "Placement": "toolbar"
+      },
+      {
+        "Title": "Borger.dk",
+        "URL": "https://www.borger.dk/",
+        "Placement": "toolbar"
+      }
+    ],
+
+    "Preferences": {
+      "browser.tabs.inTitlebar": {
+        "Value": 0,
+        "Status": "locked"
+      }
+    },
+
+    "DisplayBookmarksToolbar": "always",
+    "NoDefaultBookmarks": true,
+
+    "DisableAccounts": true,
+    "DisableFirefoxAccounts": true,
+    "DisableFirefoxScreenshots": true,
+    "DisableFirefoxStudies": true,
+    "DisableTelemetry": true,
+
+    "DisableProfileRefresh": true,
+    "DisableSafeMode": true,
+    "DisableDeveloperTools": true,
+
+    "BlockAboutAddons": true,
+    "BlockAboutConfig": true,
+    "BlockAboutProfiles": true,
+    "BlockAboutSupport": true,
+
+    "PasswordManagerEnabled": false,
+    "OfferToSaveLogins": false,
+    "AutofillAddressEnabled": false,
+    "AutofillCreditCardEnabled": false,
+
+    "DisableFormHistory": true,
+
+    "SanitizeOnShutdown": {
+      "Cache": true,
+      "Cookies": true,
+      "Downloads": true,
+      "FormData": true,
+      "History": true,
+      "Sessions": true,
+      "SiteSettings": true,
+      "OfflineApps": true,
+      "Locked": true
+    },
+
+    "FirefoxHome": {
+      "Search": false,
+      "TopSites": false,
+      "SponsoredTopSites": false,
+      "Highlights": false,
+      "Pocket": false,
+      "SponsoredPocket": false,
+      "Snippets": false,
+      "SponsoredStories": false
+    },
+
+    "ShowHomeButton": false,
+
+    "SearchSuggestEnabled": false,
+
+    "DisableForgetButton": true,
+
+    "DontCheckDefaultBrowser": true,
+    "DefaultBrowserSettingEnabled": false,
+
+    "OverrideFirstRunPage": "",
+    "OverridePostUpdatePage": "",
+
+    "TranslateEnabled": false,
+
+    "ExtensionSettings": {
+      "*": {
+        "installation_mode": "blocked"
+      }
+    }
+  }
+}
