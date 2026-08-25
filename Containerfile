@@ -9,6 +9,8 @@ RUN --mount=type=cache,target=/var/cache/dnf \
         plasma-desktop \
         sddm \
         sddm-breeze \
+        glibc-langpack-da \
+        langpacks-da \
         konsole \
         dolphin \
         flatpak \
