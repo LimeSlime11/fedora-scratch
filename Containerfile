@@ -9,6 +9,7 @@ RUN --mount=type=cache,target=/var/cache/dnf \
         plasma-desktop \
         sddm \
         sddm-breeze \
+        xguest \
         konsole \
         dolphin \
         flatpak \
