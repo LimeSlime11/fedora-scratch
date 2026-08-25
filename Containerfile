@@ -28,6 +28,9 @@ RUN systemctl enable sddm.service
 # Copy system files from features to the root filesystem
 COPY features/*/files/ /
 
+# make system file scripts executable (different from the feature scripts, which are run in the next step)
+RUN find / -type f -name '*.sh' -exec chmod +x {} + 2>/dev/null || true
+
 # Run scripts from features
 RUN --mount=type=bind,source=features,target=/features \
     for script in /features/*/scripts/*.sh; do \
