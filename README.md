@@ -1,2 +1,3 @@
-# fedora-scratch
-building a fedora image from scratch, cause all the existing sources keep causing me problems 
+TODO:
+
+get keyboard layout to apply on KDE, it currently only applies in TTY
