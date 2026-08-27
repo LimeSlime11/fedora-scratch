@@ -13,8 +13,8 @@ RUN --mount=type=cache,target=/var/cache/dnf \
         langpacks-da \
         konsole \
         dolphin \
-        firefox
-        kate
+        firefox \
+        kate \
         flatpak \
     && dnf5 clean all
 
