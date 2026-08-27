@@ -26,6 +26,8 @@
       }
     },
 
+    "PrivateBrowsingModeAvailability": 2,
+
     "DisplayBookmarksToolbar": "always",
     "NoDefaultBookmarks": true,
 
@@ -44,12 +46,23 @@
     "BlockAboutProfiles": true,
     "BlockAboutSupport": true,
 
+    "BrowserDataBackup": {
+      "AllowBackup": false,
+      "AllowRestore": false
+    },
+
     "PasswordManagerEnabled": false,
     "OfferToSaveLogins": false,
     "AutofillAddressEnabled": false,
     "AutofillCreditCardEnabled": false,
 
     "DisableFormHistory": true,
+
+    "Cookies": {
+      "Behavior": "reject",
+      "Locked": true
+    },
+
 
     "SanitizeOnShutdown": {
       "Cache": true,
@@ -64,15 +77,23 @@
     },
 
     "FirefoxHome": {
-      "Search": false,
+      "Search": true,
       "TopSites": false,
       "SponsoredTopSites": false,
       "Highlights": false,
       "Pocket": false,
       "SponsoredPocket": false,
       "Snippets": false,
-      "SponsoredStories": false
+      "SponsoredStories": false,
+      "Weather": false,
+      "Locked": true
     },
+
+    "DisableSetDesktopBackground": true,
+
+    "SkipTermsOfUse": true,
+
+    "DisableProfileImport": true,
 
     "ShowHomeButton": false,
 
@@ -87,6 +108,21 @@
     "OverridePostUpdatePage": "",
 
     "TranslateEnabled": false,
+
+    "EnableTrackingProtection": {
+      "Value": true,
+      "Locked": true,
+      "Cryptomining": true,
+      "Fingerprinting": true,
+      "EmailTracking": true,
+      "SuspectedFingerprinting": true,
+      "Category": "strict",
+      "Exceptions": [
+        "https://example.com"
+      ],
+      "BaselineExceptions": true,
+      "ConvenienceExceptions": true
+    },
 
     "ExtensionSettings": {
       "*": {
