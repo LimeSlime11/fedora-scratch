@@ -1,0 +1,1 @@
+to find the names needed to add favorite apps, look for the existing .desktop files inside /usr/share/applications/
