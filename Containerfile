@@ -13,19 +13,11 @@ RUN --mount=type=cache,target=/var/cache/dnf \
         langpacks-da \
         konsole \
         dolphin \
+        firefox
+        kate
         flatpak \
     && dnf5 clean all
 
-# Add Flathub
-RUN flatpak remote-add --system --if-not-exists flathub \
-    https://dl.flathub.org/repo/flathub.flatpakrepo
-
-RUN flatpak install --system --noninteractive flathub \
-    org.kde.kate \
-    org.mozilla.firefox
-
-# enable login manager
-# RUN systemctl enable sddm.service
 
 # Copy system files from features to the root filesystem
 COPY features/*/files/ /
