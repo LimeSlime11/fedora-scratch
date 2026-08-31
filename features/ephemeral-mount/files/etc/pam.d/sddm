@@ -21,6 +21,6 @@ session     include       password-auth
 -session     optional      pam_kwallet5.so auto_start
 -session     optional      pam_kwallet.so auto_start
 # Runs mount script ONLY when logging into the 'guest' account
-session     required      pam_exec.so type=guest /usr/local/bin/kiosk-mount-login.sh
+session     required      pam_exec.so /usr/local/bin/kiosk-mount-login.sh
 
 session     include       postlogin
