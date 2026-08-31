@@ -1,6 +1,6 @@
 TODO:
 
-firefox config doesnt work at all.
+adjustments to kde are in pinned-apps, gotta rename that. that file is copied from the vm with its customized configuration, because kde is confusing and this is the only working method ive found
 
 if you wanna add flatpaks, put this in vontainerfile:
 # Add Flathub

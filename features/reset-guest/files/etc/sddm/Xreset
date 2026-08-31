@@ -1,0 +1,32 @@
+#!/bin/bash
+# /etc/sddm/Xreset
+
+GUEST_USER="guest"
+GUEST_HOME="/var/home/${GUEST_USER}"
+SKEL_DIR="/etc/skel-guest"
+
+# Only run cleanup if the logging-out user is the guest user
+if [ "$USER" = "$GUEST_USER" ]; then
+
+    # 1. Force kill all processes owned by guest (including kwin_wayland, pipewire, dbus)
+    loginctl terminate-user "$GUEST_USER" 2>/dev/null || true
+    pkill -9 -u "$GUEST_USER" 2>/dev/null || true
+
+    # Give systemd user-session a brief moment to release sockets
+    sleep 1
+
+    # 2. Safely purge all files and hidden dotfiles in the guest home directory
+    if [ -d "$GUEST_HOME" ]; then
+        find "$GUEST_HOME" -mindepth 1 -delete 2>/dev/null || true
+    fi
+
+    # 3. Re-create home layout from skeleton template
+    if [ -d "$SKEL_DIR" ]; then
+        cp -rT "$SKEL_DIR" "$GUEST_HOME"
+    fi
+
+    # 4. Fix permissions
+    chown -R "$GUEST_USER:$GUEST_USER" "$GUEST_HOME"
+fi
+
+exit 0
