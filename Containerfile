@@ -24,7 +24,7 @@ RUN --mount=type=cache,target=/var/cache/dnf \
         libreoffice-help-da \
         hunspell-da \
         kcalc \
-        google-noto-fonts \
+        google-noto-fonts-all \
     && dnf5 clean all
 
 
