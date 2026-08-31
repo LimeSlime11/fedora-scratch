@@ -12,7 +12,7 @@ password    include       password-auth
 
 session     required      pam_selinux.so close
 session     required      pam_loginuid.so
--session    optional    pam_ck_connector.so
+-session    optional      pam_ck_connector.so
 session     required      pam_selinux.so open
 session     optional      pam_keyinit.so force revoke
 session     required      pam_namespace.so
@@ -20,7 +20,9 @@ session     include       password-auth
 -session     optional      pam_gnome_keyring.so auto_start
 -session     optional      pam_kwallet5.so auto_start
 -session     optional      pam_kwallet.so auto_start
-# Runs mount script ONLY when logging into the 'guest' account
-session     required      pam_exec.so /usr/local/bin/kiosk-mount-login.sh
+
+# Set to 'optional' so script warnings don't abort SDDM session initialization
+# Path changed to match /usr/local/bin/guest-mount-login.sh
+session     optional      pam_exec.so /usr/local/bin/guest-mount-login.sh
 
 session     include       postlogin
