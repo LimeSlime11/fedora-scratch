@@ -28,13 +28,13 @@ RUN --mount=type=cache,target=/var/cache/dnf \
     && dnf5 clean all
 
 
-# Copy system files from features to the root filesystem
-COPY features/*/files/ /
+# FIX 1: Make any copied files/scripts executable natively during the COPY step.
+# This injects the files into the final image with correct permissions.
+COPY --chmod=755 features/*/files/ /
 
-# make system file scripts executable (different from the feature scripts, which are run in the next step)
-RUN find / -type f -name '*.sh' -exec chmod +x {} + 2>/dev/null || true
+# FIX 2: Removed the "RUN find / -type f..." command entirely.
 
-# Run scripts from features
+# Run scripts from features (the bind mount stays read-only for the build process)
 RUN --mount=type=bind,source=features,target=/features \
     for script in /features/*/scripts/*.sh; do \
         [ -f "$script" ] || continue; \
