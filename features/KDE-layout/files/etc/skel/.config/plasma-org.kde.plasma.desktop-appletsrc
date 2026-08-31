@@ -4,10 +4,10 @@ RightButton;NoModifier=org.kde.contextmenu
 [ActionPlugins][1]
 RightButton;NoModifier=org.kde.contextmenu
 
-[Containments][1]
+[Containments][19]
 ItemGeometries-1280x800=
 ItemGeometriesHorizontal=
-activityId=bf695ca7-617f-4697-ac0e-e9e162e4b864
+activityId=128169f3-962f-44aa-b323-30d0b64ec2d2
 formfactor=0
 immutability=1
 lastScreen=0
@@ -29,7 +29,7 @@ immutability=1
 plugin=org.kde.plasma.digitalclock
 
 [Containments][2][Applets][14][Configuration]
-popupHeight=400
+popupHeight=451
 popupWidth=560
 
 [Containments][2][Applets][14][Configuration][Appearance]
@@ -48,7 +48,7 @@ DialogHeight=630
 DialogWidth=810
 
 [Containments][2][Applets][18][Configuration][General]
-launchers=applications:systemsettings.desktop,preferred://filemanager,preferred://browser,applications:org.kde.kate.desktop
+launchers=applications:systemsettings.desktop,preferred://filemanager,preferred://browser
 
 [Containments][2][Applets][3]
 immutability=1
@@ -113,8 +113,13 @@ plugin=org.kde.plasma.cameraindicator
 immutability=1
 plugin=org.kde.plasma.clipboard
 
+[Containments][2][Applets][7][ConfigDialog]
+DialogHeight=630
+DialogWidth=810
+
 [Containments][2][Applets][7][General]
-extraItems=org.kde.plasma.battery,org.kde.plasma.brightness,org.kde.plasma.cameraindicator,org.kde.plasma.clipboard,org.kde.plasma.devicenotifier,org.kde.plasma.keyboardlayout,org.kde.plasma.manage-inputmethod,org.kde.plasma.mediacontroller,org.kde.plasma.notifications
+extraItems=org.kde.plasma.battery,org.kde.plasma.cameraindicator,org.kde.plasma.clipboard,org.kde.plasma.devicenotifier,org.kde.plasma.keyboardlayout,org.kde.plasma.manage-inputmethod,org.kde.plasma.mediacontroller,org.kde.plasma.notifications,org.kde.plasma.brightness
+hiddenItems=org.kde.plasma.brightness
 knownItems=org.kde.plasma.battery,org.kde.plasma.brightness,org.kde.plasma.cameraindicator,org.kde.plasma.clipboard,org.kde.plasma.devicenotifier,org.kde.plasma.keyboardlayout,org.kde.plasma.manage-inputmethod,org.kde.plasma.mediacontroller,org.kde.plasma.notifications
 
 [Containments][2][General]

@@ -15,7 +15,16 @@ RUN --mount=type=cache,target=/var/cache/dnf \
         dolphin \
         firefox \
         kate \
-        flatpak \
+        gwenview \
+        okular \
+        vlc \
+        7zip \
+        libreoffice \
+        libreoffice-langpack-da \
+        libreoffice-help-da \
+        hunspell-da \
+        kcalc \
+        google-noto-fonts \
     && dnf5 clean all
 
 
@@ -24,7 +33,6 @@ COPY features/*/files/ /
 
 # make system file scripts executable (different from the feature scripts, which are run in the next step)
 RUN find / -type f -name '*.sh' -exec chmod +x {} + 2>/dev/null || true
-RUN chmod +x /etc/sddm/Xreset
 
 # Run scripts from features
 RUN --mount=type=bind,source=features,target=/features \
