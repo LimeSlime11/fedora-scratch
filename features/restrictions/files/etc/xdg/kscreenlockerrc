@@ -1,3 +1,8 @@
 [Daemon][$i]
-Autolock=false
-Timeout=0
+Autolock=true
+Timeout=2
+LockOnResume=false
+
+[ScreenSaver][$i]
+AutoLogout=true
+AutoLogoutTimeout=30
