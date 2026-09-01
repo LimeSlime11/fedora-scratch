@@ -26,7 +26,7 @@ RUN --mount=type=cache,target=/var/cache/dnf \
         pam \
         # Utilities
         swayidle \
-        kdialog \
+        zenity \
     && dnf5 clean all
 
 # ==============================================================================
