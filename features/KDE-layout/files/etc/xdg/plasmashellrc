@@ -1,0 +1,9 @@
+[PlasmaViews][Panel 2]
+floating=0
+shell=org.kde.plasma.desktop
+
+[PlasmaViews][Panel 2][Defaults]
+thickness=42
+
+[PlasmaViews][Panel 2][Horizontal.1920]
+thickness=42
