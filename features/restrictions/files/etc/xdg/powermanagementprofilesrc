@@ -1,3 +1,5 @@
+# we are disabling all default idle functions, the screen won't turn off by itself 
+
 [AC][Suspend][$i]
 idleTime=-1
 
