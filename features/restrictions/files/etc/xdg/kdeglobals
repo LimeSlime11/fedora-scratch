@@ -1,0 +1,21 @@
+[KDE Action Restrictions][$i]
+action/plasma/contains_passthrough_button=false
+action/plasma/edit_applications=false
+action/plasma/plasmashell/desktop/manage_widgets=false
+action/plasma/plasmashell/desktop/show_krunner=true
+
+[Development][$i]
+KConfigCompiler_RestrictAccess=true
+
+[KDE Action Restrictions][$i]
+# Disables specific System Settings modules
+allow_changing_wallpaper=false
+control_center_kcm_clock=false
+control_center_kcm_fonts=false
+control_center_kcm_lookandfeel=false
+control_center_kcm_screenlocker=false
+
+
+[KDE Action Restrictions][$i]
+action/plasma/plasmashell/unlockedDesktop=false
+action/plasma/plasmashell/desktop/manage_widgets=false
