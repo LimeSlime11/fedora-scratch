@@ -1,5 +1,0 @@
-# Custom Script Configuration on Idle
-[AC][RunScript]
-# idleTime in ms, 120k = 2 minutes
-idleTime=120000
-scriptCommand=qdbus-qt6 org.kde.LogoutPrompt /LogoutPrompt promptLogout

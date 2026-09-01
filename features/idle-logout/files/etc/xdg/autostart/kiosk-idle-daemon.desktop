@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Kiosk Idle Daemon
+Exec=swayidle -w timeout 120 '/usr/local/bin/kiosk-idle-handler.sh'
+Hidden=false
+NoDisplay=true
+X-GNOME-Autostart-enabled=true

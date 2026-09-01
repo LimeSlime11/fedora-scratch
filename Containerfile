@@ -24,6 +24,8 @@ RUN --mount=type=cache,target=/var/cache/dnf \
         glibc-langpack-da \
         langpacks-da \
         pam \
+        # Utilities
+        swayidle \
     && dnf5 clean all
 
 # ==============================================================================
