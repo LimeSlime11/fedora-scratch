@@ -66,3 +66,14 @@ RUN --mount=type=bind,source=features,target=/features \
         [ -f "$script" ] || continue; \
         bash "$script"; \
     done
+
+# ==============================================================================
+# STAGE 4: Executable Permissions & Service Activation
+# Ensures custom python executables are executable and systemd services enabled.
+# ==============================================================================
+RUN chmod +x /usr/local/bin/*.py /usr/bin/*.py 2>/dev/null || true && \
+    for service in /etc/systemd/system/*.service /usr/lib/systemd/system/*.service; do \
+        [ -f "$service" ] || continue; \
+        service_name=$(basename "$service"); \
+        systemctl enable "$service_name" 2>/dev/null || true; \
+    done

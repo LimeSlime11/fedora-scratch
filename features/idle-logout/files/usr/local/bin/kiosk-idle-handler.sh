@@ -16,7 +16,8 @@ zenity --question \
        --text="Om 30 sekunder bliver du logget ud, og dine data bliver slettet. Vil du annullere?" \
        --ok-label="Log ud" \
        --cancel-label="Annuller" \
-       --timeout=30
+       --timeout=30 \
+       --modal
 
 EXIT_CODE=$?
 
