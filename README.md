@@ -1,6 +1,6 @@
 TODO:
 
-    Need to rethink the power schedule. copypasting the last one doesnt work
+    Because i'm using a VM, i can't test whether the rtc wakeup works in the power-schedule feature, however, shutdown works!
 
 
 Known Bugs:

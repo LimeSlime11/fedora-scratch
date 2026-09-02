@@ -138,6 +138,7 @@ if [[ -n "$OPEN_TIME" && -n "$CLOSE_TIME" ]]; then
         log "Scheduling shutdown for $CLOSE_TIME."
 
         /usr/sbin/shutdown \
+            --no-wall \
             -h "$CLOSE_TIME" \
             "Library is closing soon. Wrapping up session."
 
@@ -222,7 +223,8 @@ if [[ "$OUTSIDE_HOURS" == true ]]; then
     log "Scheduling shutdown in 5 minutes."
 
     /usr/sbin/shutdown \
-        -h +5 \
+        --no-wall \
+        -h +60 \
         "Maintenance window complete. Shutting down."
 
 fi
