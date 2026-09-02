@@ -1,11 +1,14 @@
 [Unit]
-Description=One-time Power Schedule Matrix Calculation
-After=multi-user.target
+Description=Library Power Schedule
+Documentation=man:shutdown(8)
+After=local-fs.target
+Before=sddm.service
 
 [Service]
 Type=oneshot
+ExecStart=/usr/local/bin/apply-power-schedule.sh
+User=root
 RemainAfterExit=yes
-ExecStart=/usr/bin/python3 /usr/local/bin/apply-power-schedule.py
 
 [Install]
 WantedBy=multi-user.target

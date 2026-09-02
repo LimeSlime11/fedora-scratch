@@ -72,12 +72,6 @@ COPY --chown=root:root --chmod=755 features/*/files/ /
 
 # ==============================================================================
 # STAGE 4: Run Feature Installation Scripts
-#
-# Every *.sh file under:
-#
-# features/<feature>/scripts/
-#
-# is executed during the image build.
 # ==============================================================================
 
 RUN --mount=type=bind,source=features,target=/features \
@@ -89,20 +83,11 @@ RUN --mount=type=bind,source=features,target=/features \
 
 
 # ==============================================================================
-# STAGE 5: Power Schedule Configuration
-#
-# Enable the library power scheduling service so it runs automatically
-# during boot.
+# STAGE 5: Enable Services & Set Permissions
 # ==============================================================================
 
-RUN chmod 755 /usr/local/bin/apply-power-schedule.py \
-    && chmod 644 /etc/library-schedule.json \
+RUN chmod 755 /usr/local/bin/apply-power-schedule.sh \
+    && chmod 644 /etc/library-schedule.conf \
     && chmod 644 /etc/systemd/system/library-power.service \
-    && systemctl enable library-power.service
-
-
-# ==============================================================================
-# STAGE 6: Enable Display Manager
-# ==============================================================================
-
-RUN systemctl enable sddm.service
+    && systemctl enable library-power.service \
+    && systemctl enable sddm.service
