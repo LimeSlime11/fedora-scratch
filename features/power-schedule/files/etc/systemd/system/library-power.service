@@ -1,0 +1,11 @@
+[Unit]
+Description=One-time Power Schedule Matrix Calculation
+After=multi-user.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/python3 /usr/local/bin/apply-power-schedule.py
+
+[Install]
+WantedBy=multi-user.target
