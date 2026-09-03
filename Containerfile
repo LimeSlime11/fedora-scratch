@@ -86,7 +86,7 @@ RUN --mount=type=bind,source=features,target=/features \
 # STAGE 5: Enable Services & Set Permissions
 # ==============================================================================
 
-RUN chmod 755 /usr/local/bin/apply-power-schedule.sh \
+RUN chmod 755 /usr/local/bin/library-power-check.sh \
     && chmod 644 /etc/library-schedule.conf \
     && chmod 644 /etc/systemd/system/library-power.service \
     && systemctl enable library-power.service \
