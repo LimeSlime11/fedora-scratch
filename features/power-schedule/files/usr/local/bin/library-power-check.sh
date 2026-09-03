@@ -8,7 +8,7 @@ CONFIG="/etc/library-schedule.conf"
 PROTECTED_USERS=("admin")
 
 # How often to check the schedule and login state.
-CHECK_INTERVAL=60
+CHECK_INTERVAL=300
 
 # ==============================================================================
 # Load configuration
