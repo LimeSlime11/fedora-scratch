@@ -2,231 +2,155 @@
 
 set -euo pipefail
 
-# ==============================================================================
-# Configuration
-# ==============================================================================
+CONFIG="/etc/library-schedule.conf"
 
-SCHEDULE_FILE="/etc/library-schedule.conf"
-RTC_WAKEALARM="/sys/class/rtc/rtc0/wakealarm"
+# Users who prevent the computer from going to sleep.
+PROTECTED_USERS=("admin")
 
-# ==============================================================================
-# Helper functions
-# ==============================================================================
-
-log() {
-    echo "[library-power] $*"
-}
-
-# Return the configuration prefix for today's weekday.
-get_today_prefix() {
-    case "$(date +%u)" in
-        1) echo "mon" ;;
-        2) echo "tue" ;;
-        3) echo "wed" ;;
-        4) echo "thu" ;;
-        5) echo "fri" ;;
-        6) echo "sat" ;;
-        7) echo "sun" ;;
-    esac
-}
-
-# Return the configuration prefix for a date.
-get_day_prefix() {
-    local date="$1"
-
-    case "$(date -d "$date" +%u)" in
-        1) echo "mon" ;;
-        2) echo "tue" ;;
-        3) echo "wed" ;;
-        4) echo "thu" ;;
-        5) echo "fri" ;;
-        6) echo "sat" ;;
-        7) echo "sun" ;;
-    esac
-}
+# How often to check the schedule and login state.
+CHECK_INTERVAL=60
 
 # ==============================================================================
 # Load configuration
 # ==============================================================================
 
-if [[ ! -f "$SCHEDULE_FILE" ]]; then
-    log "No schedule file found: $SCHEDULE_FILE"
-    log "Nothing to do."
-    exit 0
+if [[ ! -f "$CONFIG" ]]; then
+    echo "ERROR: Schedule configuration not found: $CONFIG"
+    exit 1
 fi
 
-# The configuration file contains only simple variable assignments.
-source "$SCHEDULE_FILE"
+# shellcheck disable=SC1090
+source "$CONFIG"
 
 # ==============================================================================
-# Validate configuration
+# Validate rtcwake mode
 # ==============================================================================
 
-TIME_REGEX='^([01][0-9]|2[0-3]):[0-5][0-9]$'
+case "$mode" in
+    freeze|mem|disk|off)
+        ;;
+    *)
+        echo "ERROR: Invalid rtcwake mode: $mode"
+        exit 1
+        ;;
+esac
 
-validate_time() {
-    local name="$1"
-    local value="$2"
+# ==============================================================================
+# Main loop
+# ==============================================================================
 
-    if [[ -z "$value" ]]; then
-        return 0
+while true; do
+
+    # ==========================================================================
+    # Current date/time
+    # ==========================================================================
+
+    CURRENT_DATE=$(date '+%Y-%m-%d')
+    CURRENT_TIME=$(date '+%H:%M')
+
+    DAY=$(date '+%a' | tr '[:upper:]' '[:lower:]')
+
+    OPEN_VAR="${DAY}_open"
+    CLOSE_VAR="${DAY}_close"
+
+    OPEN="${!OPEN_VAR:-}"
+    CLOSE="${!CLOSE_VAR:-}"
+
+    # ==========================================================================
+    # Check whether the library is currently open
+    # ==========================================================================
+
+    if [[ -n "$OPEN" && -n "$CLOSE" ]]; then
+        if [[ "$CURRENT_TIME" >= "$OPEN" && "$CURRENT_TIME" < "$CLOSE" ]]; then
+            sleep "$CHECK_INTERVAL"
+            continue
+        fi
     fi
 
-    if [[ ! "$value" =~ $TIME_REGEX ]]; then
-        log "ERROR: Invalid time for $name: '$value'"
-        log "Expected HH:MM."
+    # ==========================================================================
+    # Check whether a protected user is logged in
+    # ==========================================================================
+
+    USER_LOGGED_IN=false
+
+    for USER in "${PROTECTED_USERS[@]}"; do
+        if loginctl list-users --no-legend | awk '{print $2}' | grep -qx "$USER"; then
+            USER_LOGGED_IN=true
+            break
+        fi
+    done
+
+    if [[ "$USER_LOGGED_IN" == true ]]; then
+        sleep "$CHECK_INTERVAL"
+        continue
+    fi
+
+    # ==========================================================================
+    # Find the next opening time
+    # ==========================================================================
+
+    NEXT_OPEN=""
+
+    for DAYS_AHEAD in {0..7}; do
+
+        CHECK_DATE=$(date -d "$CURRENT_DATE + $DAYS_AHEAD days" '+%Y-%m-%d')
+        CHECK_DAY=$(date -d "$CHECK_DATE" '+%a' | tr '[:upper:]' '[:lower:]')
+
+        OPEN_VAR="${CHECK_DAY}_open"
+        OPEN="${!OPEN_VAR:-}"
+
+        # This day is closed.
+        [[ -z "$OPEN" ]] && continue
+
+        # Don't select an opening time that has already passed today.
+        if [[ "$DAYS_AHEAD" -eq 0 && "$CURRENT_TIME" >= "$OPEN" ]]; then
+            continue
+        fi
+
+        NEXT_OPEN="$CHECK_DATE $OPEN"
+        break
+    done
+
+    # ==========================================================================
+    # Make sure we found an opening time
+    # ==========================================================================
+
+    if [[ -z "$NEXT_OPEN" ]]; then
+        echo "ERROR: Could not find next opening time."
         exit 1
     fi
-}
 
-validate_time "mon_open"  "${mon_open:-}"
-validate_time "mon_close" "${mon_close:-}"
+    # ==========================================================================
+    # Convert next opening to Unix timestamp
+    # ==========================================================================
 
-validate_time "tue_open"  "${tue_open:-}"
-validate_time "tue_close" "${tue_close:-}"
+    WAKE_TIME=$(date -d "$NEXT_OPEN" '+%s')
+    CURRENT_TIMESTAMP=$(date '+%s')
 
-validate_time "wed_open"  "${wed_open:-}"
-validate_time "wed_close" "${wed_close:-}"
-
-validate_time "thu_open"  "${thu_open:-}"
-validate_time "thu_close" "${thu_close:-}"
-
-validate_time "fri_open"  "${fri_open:-}"
-validate_time "fri_close" "${fri_close:-}"
-
-validate_time "sat_open"  "${sat_open:-}"
-validate_time "sat_close" "${sat_close:-}"
-
-validate_time "sun_open"  "${sun_open:-}"
-validate_time "sun_close" "${sun_close:-}"
-
-# ==============================================================================
-# Determine today's schedule
-# ==============================================================================
-
-TODAY=$(date +%Y-%m-%d)
-TODAY_PREFIX=$(get_today_prefix)
-
-OPEN_VARIABLE="${TODAY_PREFIX}_open"
-CLOSE_VARIABLE="${TODAY_PREFIX}_close"
-
-OPEN_TIME="${!OPEN_VARIABLE:-}"
-CLOSE_TIME="${!CLOSE_VARIABLE:-}"
-
-NOW=$(date +%s)
-
-log "Current date/time: $(date '+%Y-%m-%d %H:%M:%S')"
-log "Today: $TODAY_PREFIX"
-
-# ==============================================================================
-# Schedule today's shutdown
-# ==============================================================================
-
-OUTSIDE_HOURS=false
-
-if [[ -n "$OPEN_TIME" && -n "$CLOSE_TIME" ]]; then
-
-    CLOSE_TIMESTAMP=$(date -d "$TODAY $CLOSE_TIME" +%s)
-
-    if (( NOW < CLOSE_TIMESTAMP )); then
-
-        log "Library is currently open."
-        log "Today's closing time: $CLOSE_TIME"
-
-        # Let systemd/shutdown handle the actual countdown.
-        # Using HH:MM avoids calculating a number of minutes ourselves.
-        log "Scheduling shutdown for $CLOSE_TIME."
-
-        /usr/sbin/shutdown \
-            --no-wall \
-            -h "$CLOSE_TIME" \
-            "Library is closing soon. Wrapping up session."
-
-    else
-
-        log "Library has already closed today."
-        OUTSIDE_HOURS=true
-
+    if [[ "$WAKE_TIME" -le "$CURRENT_TIMESTAMP" ]]; then
+        echo "ERROR: Calculated wake time is in the past."
+        exit 1
     fi
 
-else
+    # ==========================================================================
+    # Suspend
+    # ==========================================================================
 
-    log "Library is closed today."
-    OUTSIDE_HOURS=true
+    echo "Library is closed."
+    echo "No protected users are logged in."
+    echo "Next opening: $NEXT_OPEN"
+    echo "Using rtcwake mode: $mode"
 
-fi
+    rtcwake \
+        --utc \
+        --mode "$mode" \
+        --time "$WAKE_TIME"
 
-# ==============================================================================
-# Find next opening time
-# ==============================================================================
+    # ==========================================================================
+    # rtcwake returns after the computer wakes.
+    # Wait briefly before checking everything again.
+    # ==========================================================================
 
-NEXT_OPEN=""
-
-for DAYS_AHEAD in {1..7}; do
-
-    LOOKAHEAD_DATE=$(date -d "$TODAY +$DAYS_AHEAD days" +%Y-%m-%d)
-    DAY_PREFIX=$(get_day_prefix "$LOOKAHEAD_DATE")
-
-    OPEN_VARIABLE="${DAY_PREFIX}_open"
-    LOOKAHEAD_OPEN="${!OPEN_VARIABLE:-}"
-
-    if [[ -n "$LOOKAHEAD_OPEN" ]]; then
-        NEXT_OPEN="$LOOKAHEAD_DATE $LOOKAHEAD_OPEN"
-        break
-    fi
+    sleep "$CHECK_INTERVAL"
 
 done
-
-# ==============================================================================
-# Program RTC wake alarm
-# ==============================================================================
-
-if [[ -n "$NEXT_OPEN" ]]; then
-
-    WAKE_TIMESTAMP=$(date -d "$NEXT_OPEN" +%s)
-
-    log "Next library opening: $NEXT_OPEN"
-    log "RTC wake timestamp: $WAKE_TIMESTAMP"
-
-    if [[ ! -e "$RTC_WAKEALARM" ]]; then
-        log "WARNING: RTC wakealarm is not available:"
-        log "         $RTC_WAKEALARM"
-    else
-
-        # Clear existing alarm.
-        if ! echo 0 > "$RTC_WAKEALARM"; then
-            log "WARNING: Could not clear existing RTC alarm."
-        fi
-
-        # Set new alarm.
-        if echo "$WAKE_TIMESTAMP" > "$RTC_WAKEALARM"; then
-            log "RTC wake alarm successfully programmed."
-        else
-            log "ERROR: Failed to program RTC wake alarm."
-        fi
-
-    fi
-
-else
-
-    log "WARNING: No future opening time found."
-
-fi
-
-# ==============================================================================
-# Maintenance boot
-# ==============================================================================
-
-if [[ "$OUTSIDE_HOURS" == true ]]; then
-
-    log "System booted outside library hours."
-    log "Scheduling shutdown in 5 minutes."
-
-    /usr/sbin/shutdown \
-        --no-wall \
-        -h +60 \
-        "Maintenance window complete. Shutting down."
-
-fi
-
-log "Library power scheduler finished."

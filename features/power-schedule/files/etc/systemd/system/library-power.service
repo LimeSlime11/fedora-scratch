@@ -1,14 +1,10 @@
 [Unit]
-Description=Library Power Schedule
-Documentation=man:shutdown(8)
+Description=Library power schedule
 After=local-fs.target
-Before=sddm.service
 
 [Service]
-Type=oneshot
-ExecStart=/usr/local/bin/apply-power-schedule.sh
-User=root
-RemainAfterExit=yes
+Type=simple
+ExecStart=/usr/local/bin/library-power-check.sh
 
 [Install]
 WantedBy=multi-user.target
