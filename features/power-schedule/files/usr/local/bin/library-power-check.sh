@@ -48,7 +48,8 @@ while true; do
     CURRENT_DATE=$(date '+%Y-%m-%d')
     CURRENT_TIME=$(date '+%H:%M')
 
-    DAY=$(date '+%a' | tr '[:upper:]' '[:lower:]')
+    #LC_ALL=C is used to ensure that the day abbreviation is in English, regardless of the system locale.
+    DAY=$(LC_ALL=C date '+%a' | tr '[:upper:]' '[:lower:]')
 
     OPEN_VAR="${DAY}_open"
     CLOSE_VAR="${DAY}_close"
