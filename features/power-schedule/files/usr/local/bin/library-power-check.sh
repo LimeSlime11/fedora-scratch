@@ -61,8 +61,9 @@ while true; do
     # Check whether the library is currently open
     # ==========================================================================
 
+    # bash does not allow => or >=, so the opening time will be 1 minute later than specified...
     if [[ -n "$OPEN" && -n "$CLOSE" ]]; then
-        if [[ "$CURRENT_TIME" >= "$OPEN" && "$CURRENT_TIME" < "$CLOSE" ]]; then
+        if [[ "$CURRENT_TIME" > "$OPEN" && "$CURRENT_TIME" < "$CLOSE" ]]; then
             sleep "$CHECK_INTERVAL"
             continue
         fi

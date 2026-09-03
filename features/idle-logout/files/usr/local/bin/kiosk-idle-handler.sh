@@ -29,3 +29,5 @@ else
     # Exit code 0 (Log ud) or 5 (Timeout expired): trigger logout
     qdbus-qt6 org.kde.LogoutPrompt /LogoutPrompt promptLogout
 fi
+
+# the logout method used throws a 30 second logout timer, as per usual KDE behavior, so with the 30 second zenity timeout, the user has a total of 60 seconds to cancel the logout before the session is terminated. right now this adds up to exactly 3 minutes of inactivity before the session is terminated, technically with two different warnings, the zenity popup, then the screen dimming timer. this makes it hard to miss and get logged out without seeing the warnings.
