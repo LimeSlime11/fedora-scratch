@@ -134,32 +134,6 @@ while true; do
         exit 1
     fi
 
-    # ==============================================================================
-    # Log out all unprotected users
-    # ==============================================================================
-
-    for USER in $(loginctl list-users --no-legend | awk '{print $2}'); do
-
-        # Check whether this user is protected.
-        PROTECTED=false
-
-        for PROTECTED_USER in "${PROTECTED_USERS[@]}"; do
-            if [[ "$USER" == "$PROTECTED_USER" ]]; then
-                PROTECTED=true
-                break
-            fi
-        done
-
-        # Don't log out protected users.
-        if [[ "$PROTECTED" == true ]]; then
-            continue
-        fi
-
-        echo "Logging out unprotected user: $USER"
-        loginctl terminate-user "$USER"
-
-    done
-
     # ==========================================================================
     # Suspend
     # ==========================================================================
@@ -169,13 +143,16 @@ while true; do
     echo "Next opening: $NEXT_OPEN"
     echo "Using rtcwake mode: $mode"
 
+    # we are going to restart sddm, to log out unprotected users, and prevent a certain bug on wakeup when sddm is the only running graphical environment
+    systemctl stop sddm.service
+
     rtcwake \
         --utc \
         --mode "$mode" \
         --time "$WAKE_TIME"
 
+    systemctl start sddm.service
     # ==========================================================================
-    # rtcwake returns after the computer wakes.
     # Wait briefly before checking everything again.
     # ==========================================================================
 
