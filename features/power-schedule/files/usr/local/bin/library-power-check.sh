@@ -95,7 +95,7 @@ while true; do
     for DAYS_AHEAD in {0..7}; do
 
         CHECK_DATE=$(date -d "$CURRENT_DATE + $DAYS_AHEAD days" '+%Y-%m-%d')
-        CHECK_DAY=$(date -d "$CHECK_DATE" '+%a' | tr '[:upper:]' '[:lower:]')
+        CHECK_DAY=$(LC_ALL=C date -d "$CHECK_DATE" '+%a' | tr '[:upper:]' '[:lower:]')
 
         OPEN_VAR="${CHECK_DAY}_open"
         OPEN="${!OPEN_VAR:-}"
