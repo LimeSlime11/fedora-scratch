@@ -1,13 +1,14 @@
 TODO:
 
-    Because i'm using a VM, i can't test whether the rtc wakeup works in the power-schedule feature, however, shutdown works!
-
+    Scheduled sleep works, but if a guest was logged in when it kicks in, they remain logged in on wakeup. need to make the script force quit existing sessions if there are any, for safety.
 
 Known Bugs:
 
     On first login, guest gets logged out on inactivity without the intended warning. subsequent logins get the warning as intended.
 
     The favorited apps list on the kde context menu is empty, even though i've defined them in KDE-layout//kicker-extra-favoritesrc
+
+
 
 
 Miscellaneous:

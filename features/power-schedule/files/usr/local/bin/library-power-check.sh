@@ -134,6 +134,32 @@ while true; do
         exit 1
     fi
 
+    # ==============================================================================
+    # Log out all unprotected users
+    # ==============================================================================
+
+    for USER in $(loginctl list-users --no-legend | awk '{print $2}'); do
+
+        # Check whether this user is protected.
+        PROTECTED=false
+
+        for PROTECTED_USER in "${PROTECTED_USERS[@]}"; do
+            if [[ "$USER" == "$PROTECTED_USER" ]]; then
+                PROTECTED=true
+                break
+            fi
+        done
+
+        # Don't log out protected users.
+        if [[ "$PROTECTED" == true ]]; then
+            continue
+        fi
+
+        echo "Logging out unprotected user: $USER"
+        loginctl terminate-user "$USER"
+
+    done
+
     # ==========================================================================
     # Suspend
     # ==========================================================================
