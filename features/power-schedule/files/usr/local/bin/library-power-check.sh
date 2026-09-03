@@ -105,7 +105,7 @@ while true; do
         [[ -z "$OPEN" ]] && continue
 
         # Don't select an opening time that has already passed today.
-        if [[ "$DAYS_AHEAD" -eq 0 && "$CURRENT_TIME" >= "$OPEN" ]]; then
+        if [[ "$DAYS_AHEAD" -eq 0 && "$CURRENT_TIME" > "$OPEN" ]]; then
             continue
         fi
 
