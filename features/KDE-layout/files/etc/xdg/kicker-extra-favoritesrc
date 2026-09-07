@@ -1,4 +1,0 @@
-[General]
-Prepend=kdesystemsettings.desktop;org.kde.dolphin.desktop
-Append=org.mozilla.firefox.desktop
-IgnoreDefaults=true

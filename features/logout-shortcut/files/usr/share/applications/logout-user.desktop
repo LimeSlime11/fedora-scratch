@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Log ud
+Comment=Log brugeren ud
+Exec=/usr/local/bin/logout-user.sh
+Icon=system-log-out
+Terminal=false
+Type=Application
