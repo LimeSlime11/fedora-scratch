@@ -4,10 +4,20 @@ TODO:
 
     remove shutdown/reboot/sleep from login screen and kde menus
 
+    maybe add favorite apps to the context menu
+
+    auto open browser
+
+    make a script or something to name the PCs
+
+    create an eventhandler for when a device is removed or detected
+
+    preset wifi settings.
+
 
 Known Bugs:
 
-    The favorited apps list on the kde context menu is empty, even though i've defined them in KDE-layout//kicker-extra-favoritesrc
+    When guest logs in, they might see a black screen with an "evm" warning for 1-3  seconds. it does no harm, but might cause confusion
 
 
 
