@@ -1,8 +1,9 @@
 TODO:
 
+    lock down KDE, so people cant customize and mess it up.
+
     remove shutdown/reboot/sleep from login screen and kde menus
 
-    add a log out icon on taskbar
 
 Known Bugs:
 
