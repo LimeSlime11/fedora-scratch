@@ -11,13 +11,13 @@ RUN --mount=type=cache,target=/var/cache/dnf \
     dnf5 install -y \
         --setopt=install_weak_deps=False \
         sddm \
-        sddm-breeze \
-        plasma-desktop \
-        plasma-workspace-wayland \
-        kwin-wayland \
-        kde-settings-plasma \
-        xorg-x11-server-Xwayland \
-        xdg-desktop-portal-kde \
+        xfce4-session \
+        xfce4-panel \
+        xfce4-settings \
+        xfdesktop \
+        xfwm4 \
+        xorg-x11-server-Xorg \
+        xdg-desktop-portal \
         pipewire \
         wireplumber \
         glibc-langpack-da \
@@ -45,8 +45,8 @@ RUN --mount=type=cache,target=/var/cache/dnf \
         vlc \
         okular \
         kate \
-        dolphin \
-        konsole \
+        thunar \
+        xfce4-terminal \
         kcalc \
         gwenview \
         7zip \
