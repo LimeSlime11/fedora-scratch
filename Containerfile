@@ -11,7 +11,6 @@ RUN --mount=type=cache,target=/var/cache/dnf \
     dnf5 install -y \
         --setopt=install_weak_deps=False \
         sddm \
-        sddm-breeze \
         xfce4-session \
         xfce4-panel \
         xfce4-settings \
