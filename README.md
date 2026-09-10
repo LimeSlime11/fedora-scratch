@@ -1,18 +1,8 @@
 TODO:
 
-    lock down KDE, so people cant customize and mess it up.
-
-    remove shutdown/reboot/sleep from login screen and kde menus
-
-    maybe add favorite apps to the context menu
-
-    auto open browser
-
-    make a script or something to name the PCs
-
-    create an eventhandler for when a device is removed or detected
-
-    preset wifi settings.
+    remake idle-logout for xfce
+    remake numlock-enable for xfce
+    
 
 
 Known Bugs:
