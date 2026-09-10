@@ -45,12 +45,12 @@ RUN --mount=type=cache,target=/var/cache/dnf \
         libreoffice-help-da \
         hunspell-da \
         vlc \
-        okular \
-        kate \
+        evince \
+        mousepad \
         thunar \
         xfce4-terminal \
-        kcalc \
-        gwenview \
+        galculator \
+        ristretto \
         7zip \
         google-noto-sans-fonts \
         google-noto-serif-fonts \
