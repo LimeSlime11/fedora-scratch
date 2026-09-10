@@ -17,7 +17,7 @@ RUN --mount=type=cache,target=/var/cache/dnf \
         xfce4-settings \
         xfdesktop \
         xfwm4 \
-        xfce4-docklike-plugin
+        xfce4-docklike-plugin \
         xorg-x11-server-Xorg \
         xdg-desktop-portal \
         pipewire \
