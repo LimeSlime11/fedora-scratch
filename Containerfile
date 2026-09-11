@@ -23,6 +23,7 @@ RUN --mount=type=cache,target=/var/cache/dnf \
         wireplumber \
         glibc-langpack-da \
         langpacks-da \
+        xautolock \
         pam \
         swayidle \
         zenity \
