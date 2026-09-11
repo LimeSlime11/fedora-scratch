@@ -1,0 +1,6 @@
+[Unit]
+Description=Force NumLock on
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/xfconf-query -c keyboards -p /Default/Numlock -s true

@@ -1,40 +1,40 @@
 FROM quay.io/fedora/fedora-bootc:latest
 
 # ==============================================================================
-# STAGE 1: Core OS, Desktop Shell & Display Manager
+# STEP 1: Desktop Foundations
 #
-# Weak dependencies are disabled to avoid pulling in unnecessary software.
-# Essential runtime components are explicitly installed.
-# for xfce, this means i have to be more explicit, because xfce is a modular desktop environment.
+# Weak dependencies allowed so Fedora provides a complete desktop.
+# ==============================================================================
+
+RUN --mount=type=cache,target=/var/cache/dnf \
+    dnf5 install -y \
+        sddm \
+        xfce4 \
+        network-manager-applet \
+        xorg-x11-server-Xorg \
+        pipewire \
+        wireplumber \
+        glibc-langpack-da \
+        langpacks-da \
+    && dnf5 clean all
+
+
+# ==============================================================================
+# STEP 2: Additional Utilities
+#
+# Weak dependencies disabled to avoid unnecessary extras.
 # ==============================================================================
 
 RUN --mount=type=cache,target=/var/cache/dnf \
     dnf5 install -y \
         --setopt=install_weak_deps=False \
-        sddm \
-        xfce4-session \
-        xfce4-panel \
-        xfce4-settings \
-        xfdesktop \
-        xfwm4 \
-        xfce4-docklike-plugin \
-        xorg-x11-server-Xorg \
-        xdg-desktop-portal \
-        libappindicator \
-        dbus-x11 \
-        xfce4-notifyd \
-        pipewire \
-        wireplumber \
-        glibc-langpack-da \
-        langpacks-da \
         xautolock \
-        pam \
         zenity \
     && dnf5 clean all
 
 
 # ==============================================================================
-# STAGE 2: User Applications & Fonts
+# STEP 3: User Applications & Fonts
 #
 # Weak dependencies remain disabled to keep the image minimal.
 # ==============================================================================
@@ -62,7 +62,7 @@ RUN --mount=type=cache,target=/var/cache/dnf \
 
 
 # ==============================================================================
-# STAGE 3: Copy Feature Files
+# STEP 4: Copy Feature Files
 #
 # The feature directory structure mirrors the root filesystem:
 #
@@ -76,7 +76,7 @@ COPY --chown=root:root --chmod=755 features/*/files/ /
 
 
 # ==============================================================================
-# STAGE 4: Run Feature Installation Scripts
+# STEP 5: Run Feature Installation Scripts
 # ==============================================================================
 
 RUN --mount=type=bind,source=features,target=/features \
@@ -88,7 +88,7 @@ RUN --mount=type=bind,source=features,target=/features \
 
 
 # ==============================================================================
-# STAGE 5: Enable Services & Set Permissions
+# STEP 6: Enable Services & Set Permissions
 # ==============================================================================
 
 RUN chmod 755 /usr/local/bin/library-power-check.sh \
