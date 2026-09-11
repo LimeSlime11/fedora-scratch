@@ -1,7 +1,5 @@
 TODO:
 
-    remake idle-logout for xfce
-    remake numlock-enable for xfce
     add a feature for the xfce panel layout config
 
 

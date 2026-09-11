@@ -5,6 +5,7 @@ FROM quay.io/fedora/fedora-bootc:latest
 #
 # Weak dependencies are disabled to avoid pulling in unnecessary software.
 # Essential runtime components are explicitly installed.
+# for xfce, this means i have to be more explicit, because xfce is a modular desktop environment.
 # ==============================================================================
 
 RUN --mount=type=cache,target=/var/cache/dnf \
@@ -19,6 +20,9 @@ RUN --mount=type=cache,target=/var/cache/dnf \
         xfce4-docklike-plugin \
         xorg-x11-server-Xorg \
         xdg-desktop-portal \
+        libappindicator \
+        dbus-x11 \
+        xfce4-notifyd \
         pipewire \
         wireplumber \
         glibc-langpack-da \
