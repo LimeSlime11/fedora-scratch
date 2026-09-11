@@ -1,6 +1,6 @@
 TODO:
 
-    add a feature for the xfce panel layout config
+    need to add a new layout template to xfce-layout
 
 
 
@@ -10,13 +10,7 @@ Known Bugs:
 
 
 Containerfile notes:
-    step 1 installs a few packages, but with all of their critical and optional packages.
-    this is because xfce is very modular. so if you only install the session manager and panel,
-    youll be missing things like the network manager, volume control, bluetooth, printing, etc.
-    in final production, itd make sense to go over XFCE4's dependencies and make a list of what we want.
-    but for this prototype, just installing the DE with everything recommended will make everything a lot simpler,
-    and way more readable.
-
+    
 
 Miscellaneous:
 
