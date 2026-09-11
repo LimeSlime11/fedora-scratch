@@ -18,7 +18,7 @@ RUN --mount=type=cache,target=/var/cache/dnf \
         xfdesktop \
         xfwm4 \
         xfce4-statusnotifier-plugin \
-        network-manager-applet 
+        network-manager-applet \
         xorg-x11-server-Xorg \
         xdg-desktop-portal \
         libappindicator \
