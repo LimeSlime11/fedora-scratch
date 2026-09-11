@@ -25,7 +25,6 @@ RUN --mount=type=cache,target=/var/cache/dnf \
         langpacks-da \
         xautolock \
         pam \
-        swayidle \
         zenity \
     && dnf5 clean all
 
