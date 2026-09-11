@@ -21,10 +21,12 @@
         <value type="int" value="21"/>
         <value type="int" value="20"/>
         <value type="int" value="13"/>
-        <value type="int" value="5"/>
+        <value type="int" value="4"/>
         <value type="int" value="10"/>
         <value type="int" value="9"/>
         <value type="int" value="8"/>
+        <value type="int" value="5"/>
+        <value type="int" value="3"/>
       </property>
       <property name="border-width" type="uint" value="2"/>
     </property>
@@ -38,7 +40,7 @@
     </property>
     <property name="plugin-5" type="string" value="separator">
       <property name="style" type="uint" value="0"/>
-      <property name="expand" type="bool" value="true"/>
+      <property name="expand" type="bool" value="false"/>
     </property>
     <property name="plugin-8" type="string" value="clock">
       <property name="digital-layout" type="uint" value="1"/>
@@ -94,6 +96,15 @@
       <property name="items" type="array">
         <value type="string" value="17891181526.desktop"/>
       </property>
+    </property>
+    <property name="plugin-3" type="string" value="systray">
+      <property name="known-legacy-items" type="array">
+        <value type="string" value="ethernet network connection “wired connection 1” active"/>
+      </property>
+    </property>
+    <property name="plugin-4" type="string" value="separator">
+      <property name="expand" type="bool" value="true"/>
+      <property name="style" type="uint" value="0"/>
     </property>
   </property>
 </channel>

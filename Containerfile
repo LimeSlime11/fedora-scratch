@@ -5,31 +5,55 @@ FROM quay.io/fedora/fedora-bootc:latest
 #
 # Weak dependencies are disabled to avoid pulling in unnecessary software.
 # Essential runtime components are explicitly installed.
-# for xfce, this means i have to be more explicit, because xfce is a modular desktop environment.
+#
+# XFCE is a modular desktop environment, so its individual components need to
+# be installed explicitly.
 # ==============================================================================
 
 RUN --mount=type=cache,target=/var/cache/dnf \
     dnf5 install -y \
         --setopt=install_weak_deps=False \
+
+        # --- Display & Desktop Shell ---
         sddm \
         xfce4-session \
         xfce4-panel \
         xfce4-settings \
         xfdesktop \
         xfwm4 \
+
+        # --- Panel & Desktop Integration ---
         xfce4-statusnotifier-plugin \
-        network-manager-applet \
-        xorg-x11-server-Xorg \
-        xdg-desktop-portal \
+        xfce4-notifyd \
         libappindicator \
         dbus-x11 \
-        xfce4-notifyd \
+
+        # --- Networking ---
+        network-manager-applet \
+        avahi \
+
+        # --- Audio ---
         pipewire \
         wireplumber \
+        xfce4-pulseaudio-plugin \
+        pavucontrol \
+
+        # --- Printing ---
+        cups \
+        cups-client \
+        system-config-printer \
+
+        # --- Display & Desktop Integration ---
+        xorg-x11-server-Xorg \
+        xdg-desktop-portal \
+
+        # --- Language & Input ---
         glibc-langpack-da \
         langpacks-da \
-        xautolock \
         pam \
+
+        # --- User Session Utilities ---
+        xautolock \
         zenity \
     && dnf5 clean all
 
@@ -43,19 +67,35 @@ RUN --mount=type=cache,target=/var/cache/dnf \
 RUN --mount=type=cache,target=/var/cache/dnf \
     dnf5 install -y \
         --setopt=install_weak_deps=False \
+
+        # --- Web & Internet ---
         firefox \
+
+        # --- Office & Documents ---
         libreoffice \
         libreoffice-langpack-da \
         libreoffice-help-da \
         hunspell-da \
-        vlc \
         evince \
-        mousepad \
+
+        # --- Media ---
+        vlc \
+
+        # --- File Management ---
         thunar \
-        xfce4-terminal \
-        galculator \
-        ristretto \
         7zip \
+
+        # --- Basic Utilities ---
+        mousepad \
+        galculator \
+
+        # --- Image Viewing ---
+        ristretto \
+
+        # --- Terminal ---
+        xfce4-terminal \
+
+        # --- Fonts ---
         google-noto-sans-fonts \
         google-noto-serif-fonts \
         google-noto-color-emoji-fonts \
