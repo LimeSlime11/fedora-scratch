@@ -9,7 +9,7 @@ FROM quay.io/fedora/fedora-bootc:latest
 RUN --mount=type=cache,target=/var/cache/dnf \
     dnf5 install -y \
         sddm \
-        xfce4 \
+        xfce4-panel \
         network-manager-applet \
         xorg-x11-server-Xorg \
         pipewire \
