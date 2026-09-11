@@ -53,6 +53,7 @@ RUN --mount=type=cache,target=/var/cache/dnf \
         pam \
 
         # --- User Session Utilities ---
+        xdg-user-dirs \
         xautolock \
         zenity \
     && dnf5 clean all
